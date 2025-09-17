@@ -20,9 +20,16 @@ const options = {
     },
     "devMode": true,
     "host": "localhost",
-    "port": "6002",
+    "port": "6003",
     "protocol": "http",
-    "socketio": {},
+    "socketio": {
+        "cors": {
+            "origin": "*",
+            "methods": ["GET", "POST"],
+            "allowedHeaders": ["Origin", "Content-Type", "X-Auth-Token", "X-Requested-With", "Accept", "Authorization", "X-CSRF-TOKEN", "X-Socket-Id"],
+            "credentials": true
+        }
+    },
     "secureOptions": 67108864,
     "sslCertPath": "",
     "sslKeyPath": "",
