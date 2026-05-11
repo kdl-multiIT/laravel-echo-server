@@ -92,10 +92,11 @@ export class HttpApi {
     getChannels(req: any, res: any): void {
         let prefix = url.parse(req.url, true).query.filter_by_prefix;
         let rooms = this.io.sockets.adapter.rooms;
+        let sids = this.io.sockets.adapter.sids;
         let channels = {};
 
-        Object.keys(rooms).forEach(function(channelName) {
-            if (rooms[channelName].sockets[channelName]) {
+        rooms.forEach(function(room, channelName) {
+            if (sids.has(channelName)) {
                 return;
             }
 
@@ -104,7 +105,7 @@ export class HttpApi {
             }
 
             channels[channelName] = {
-                subscription_count: rooms[channelName].length,
+                subscription_count: room.size,
                 occupied: true
             };
         });
@@ -120,8 +121,8 @@ export class HttpApi {
      */
     getChannel(req: any, res: any): void {
         let channelName = req.params.channelName;
-        let room = this.io.sockets.adapter.rooms[channelName];
-        let subscriptionCount = room ? room.length : 0;
+        let room = this.io.sockets.adapter.rooms.get(channelName);
+        let subscriptionCount = room ? room.size : 0;
 
         let result = {
             subscription_count: subscriptionCount,

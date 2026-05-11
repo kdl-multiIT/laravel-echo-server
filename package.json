@@ -19,6 +19,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
+    "test": "npm run build && node test/socketio4-lifecycle.test.js && node test/all-classes.test.js",
     "prepublish": "npm run build"
   },
   "dependencies": {

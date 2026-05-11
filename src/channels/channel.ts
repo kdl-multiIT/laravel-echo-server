@@ -63,8 +63,7 @@ export class Channel {
             if (this.isClientEvent(data.event) &&
                 this.isPrivate(data.channel) &&
                 this.isInChannel(socket, data.channel)) {
-                this.io.sockets.connected[socket.id]
-                    .broadcast.to(data.channel)
+                socket.broadcast.to(data.channel)
                     .emit(data.event, data.channel, data.data);
             }
         }
@@ -162,6 +161,6 @@ export class Channel {
      * Check if a socket has joined a channel.
      */
     isInChannel(socket: any, channel: string): boolean {
-        return !!socket.rooms[channel];
+        return socket.rooms.has(channel);
     }
 }
